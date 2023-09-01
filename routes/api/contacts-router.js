@@ -1,28 +1,18 @@
 import express from "express";
 
-import contactsService from "../../models/contacts/contacts.js";
+import contactsController from "../../controllers/contacts-controller.js";
+import contactsValidation from "../../middleware/validation/contacts-validation.js";
 
 const contactsRouter = express.Router()
 
-contactsRouter.get('/', async (req, res, next) => {
-  const result = await contactsService.listContacts();
-  res.json(result);
-})
+contactsRouter.get('/', contactsController.getAllContacts)
 
-contactsRouter.get('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+contactsRouter.get('/:contactId', contactsController.getByIdContacts)
 
-contactsRouter.post('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+contactsRouter.post('/',contactsValidation.addContactsValidate, contactsController.addContacts)
 
-contactsRouter.delete('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+contactsRouter.delete('/:contactId', contactsController.deleteByIdContacts)
 
-contactsRouter.put('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+contactsRouter.put('/:contactId',contactsValidation.addContactsValidate, contactsController.updateByIdContacts)
 
 export default contactsRouter;
