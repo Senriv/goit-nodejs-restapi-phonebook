@@ -11,8 +11,9 @@ const getAllContacts = async (req, res) => {
 };
 
 const getByIdContacts = async (req, res) => {
+  const { _id: owner } = req.user;
   const { contactId } = req.params;
-  const result = await Contact.findById(contactId);
+  const result = await Contact.findById(contactId, owner);
   if (!result) {
     throw HttpError(404, `Not found`);
   }
@@ -29,8 +30,9 @@ const updateByIdContacts = async (req, res) => {
   if (Object.keys(req.body).length === 0) {
     throw HttpError(400, "missing fields");
   }
+  const { _id: owner } = req.user;
   const { contactId } = req.params;
-  const result = await Contact.findByIdAndUpdate(contactId, req.body, {
+  const result = await Contact.findByIdAndUpdate(contactId, req.body, owner, {
     new: true,
   });
   if (!result) {
