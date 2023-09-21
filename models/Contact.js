@@ -18,6 +18,11 @@ const contactSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
   },
   { versionKey: false }
 );
@@ -42,7 +47,7 @@ export const contactsAddSchema = Joi.object({
 
 export const contactsUpdateFavoriteSchema = Joi.object({
   favorite: Joi.boolean().required(),
-})
+});
 
 const Contact = model("contact", contactSchema);
 
